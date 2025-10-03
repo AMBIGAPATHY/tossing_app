@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Coin Toss</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1 style="margin: 0; text-align: center; width: 100%;"><strong>🌹💖Ambigapathy</strong> Coin Toss App💖🌹</h1>
+  </header>
+
+  <main class="wrap">
+    <section class="stage">
+      <!-- 3D coin with two faces -->
+      <div class="coin" id="coin" aria-live="polite">
+        <div class="coin__inner" id="coinInner" role="img" aria-label="Coin">
+          <img class="face front" src="assets/head.png" alt="Heads">
+          <img class="face back"  src="assets/tails.png" alt="Tails">
+        </div>
+      </div>
+    </section>
+
+    <section class="controls">
+      <button id="tossBtn" class="btn">Toss</button>
+      <p id="result" class="result" aria-live="polite">Tap Toss</p>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+  <footer class="footer" role="contentinfo" aria-label="Footer">
+    <p style="margin: 0; text-align: center; padding: 1rem 0;">
+      © <span id="footerYear"></span> By <b>Ambigapathy</b> Coin Toss App For <br> <b>💖பெரிய ஆனைவாரி Cricket Team💖</b>. All rights reserved.
+    </p>
+    <script>
+      // Insert current year into the footer
+      (function () {
+        document.getElementById('footerYear').textContent = new Date().getFullYear();
+      })();
+    </script>
+  </footer>
+</body>
+</html>

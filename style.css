@@ -1,0 +1,123 @@
+/* Basic Reset */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: #111;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Top bar */
+.topbar { display:flex; align-items:center; gap:.5rem; padding: .75rem 1rem; }
+.topbar h1 { font-size: clamp(18px, 2.5vw, 24px); margin: 0 auto 0 0; font-weight: 700; }
+.topbar .back { border: none; background: transparent; font-size: 20px; cursor: pointer; }
+
+/* Layout */
+.wrap {
+  flex:1;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  min-height: 0;
+}
+
+.stage {
+  display:flex;
+  align-items: flex-end;              /* coin rests near the bottom */
+  justify-content: center;
+  padding: clamp(8px, 2vw, 24px);
+}
+
+/* 3D coin */
+.coin {
+  width: min(56vw, 280px);            /* responsive coin size */
+  aspect-ratio: 1/1;
+  perspective: 1200px;
+  pointer-events: none;
+}
+
+.coin__inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.face {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 8px 24px rgba(0,0,0,.15);
+}
+
+.back { transform: rotateX(180deg); }
+
+/* Controls */
+.controls {
+  padding: 1.25rem 1rem 2rem;
+  display: grid;
+  place-items: center;
+  gap: .75rem;
+}
+
+.btn {
+  padding: .9rem 2.25rem;
+  font-size: clamp(16px, 2.8vw, 20px);
+  background: #22c55e;
+  color: white;
+  border: 0;
+  border-radius: 14px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(34,197,94,.3);
+}
+.btn:active { transform: translateY(1px); }
+
+.result {
+  font-weight: 700;
+  letter-spacing: .08em;
+  font-size: clamp(16px, 2.6vw, 20px);
+  min-height: 1.2em;
+}
+
+/* Toss animation: vertical arc + multiple flips */
+@keyframes toss-arc {
+  0%   { transform: translateY(0) rotateX(0); }
+  15%  { transform: translateY(-12vh) rotateX(360deg); }
+  35%  { transform: translateY(-28vh) rotateX(900deg); }   /* apex */
+  60%  { transform: translateY(-10vh) rotateX(1440deg); }
+  80%  { transform: translateY(-2vh)  rotateX(1800deg); }
+  100% { transform: translateY(0)     rotateX(1980deg); }  /* lands */
+}
+
+@keyframes settle {
+  0% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(0) scale(0.985); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+/* During toss we animate the inner wrapper */
+.coin.tossing .coin__inner {
+  animation: toss-arc var(--toss-duration, 1300ms) cubic-bezier(.2,.6,.2,1) forwards;
+}
+
+/* After toss, snap to the winning face */
+.coin.show-heads .coin__inner { transform: rotateX(0deg);    animation: settle 200ms ease-out; }
+.coin.show-tails .coin__inner { transform: rotateX(180deg);  animation: settle 200ms ease-out; }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .coin.tossing .coin__inner { animation-duration: 0.01ms; }
+}
+
+/* Larger screens keep nice spacing */
+@media (min-width: 768px) {
+  .controls { padding-bottom: 2.5rem; }
+}
