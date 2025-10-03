@@ -121,3 +121,5 @@ body {
 @media (min-width: 768px) {
   .controls { padding-bottom: 2.5rem; }
 }
+
+.topbar .brand { width: 28px; height: 28px; border-radius: 8px; }
